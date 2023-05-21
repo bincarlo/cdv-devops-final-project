@@ -10,7 +10,7 @@ sudo systemctl enable nginx
 # Start nginx
 sudo systemctl start nginx
 # Update OpenSSL
-sudo apt-get upgrade openssl
+sudo apt-get upgrade openssl -y
 # Install PostgreSQL
 sudo apt-get install postgresql postgresql-contrib -y
 # Open PostgreSQL port
