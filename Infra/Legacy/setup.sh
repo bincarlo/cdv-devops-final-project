@@ -38,7 +38,7 @@ sudo npm install -g create-react-app
 
 
 # Go to repository
-cd ../Backend
+cd ../../Backend
 # Install requirements
 pip3 install -r requirements.txt
 # Resolve JWT error
@@ -58,7 +58,7 @@ npm run build
 sudo cp -r build/* /var/www/html/
 
 # Copy nginx config
-sudo cp ../Infra/nginx.conf /etc/nginx/sites-available/default
+sudo cp ../Infra/Legacy/nginx.conf /etc/nginx/sites-available/default
 # Restart nginx
 sudo systemctl restart nginx
 
