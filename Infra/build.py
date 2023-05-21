@@ -230,7 +230,7 @@ def main():
 
     # Create Azure Public IP Address
     public_ip_address = create_public_ip_address(
-        credentials, subscription_id, resource_group_name, "sales-prod-ip", location
+        credentials, subscription_id, resource_group_name, "sales-prod-ip-kk", location
     )
 
     # Create Azure Virtual Machine
