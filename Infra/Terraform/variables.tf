@@ -24,6 +24,31 @@ variable "location" {
   description = "Azure region"
 }
 
+variable "vm_admin_password" {
+  type        = string
+  description = "Virtual machine admin password"
+}
+
+variable "vm_image_publisher" {
+  type        = string
+  description = "Virtual machine source image publisher"
+}
+
+variable "vm_image_offer" {
+  type        = string
+  description = "Virtual machine source image offer"
+}
+
+variable "vm_image_sku" {
+  type        = string
+  description = "Virtual machine source image SKU"
+}
+
+variable "vm_image_version" {
+  type        = string
+  description = "Virtual machine source image version"
+}
+
 locals {
   resource_base_name = "${var.prefix}-${var.application}"
 
