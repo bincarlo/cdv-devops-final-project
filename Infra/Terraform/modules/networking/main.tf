@@ -6,15 +6,22 @@ resource "azurerm_virtual_network" "vnet" {
   tags                = var.tags
 }
 
-resource "azurerm_subnet" "subnet" {
-  name                 = "${var.resource_base_name}-${var.environment}-subnet"
+resource "azurerm_subnet" "bastion_subnet" {
+  name                 = "${var.resource_base_name}-${var.environment}-bastion-subnet"
+  resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.0.0/29"]
+}
+
+resource "azurerm_subnet" "main_subnet" {
+  name                 = "${var.resource_base_name}-${var.environment}-main-subnet"
   resource_group_name  = azurerm_virtual_network.vnet.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-resource "azurerm_network_security_group" "nsg" {
-  name                = "${var.resource_base_name}-${var.environment}-nsg"
+resource "azurerm_network_security_group" "bastion_nsg" {
+  name                = "${var.resource_base_name}-${var.environment}-bastion-nsg"
   resource_group_name = azurerm_virtual_network.vnet.resource_group_name
   location            = azurerm_virtual_network.vnet.location
   tags                = var.tags
@@ -29,6 +36,26 @@ resource "azurerm_network_security_group" "nsg" {
     source_port_range          = "*"
     destination_port_range     = "22"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_network_security_group" "main_nsg" {
+  name                = "${var.resource_base_name}-${var.environment}-main-nsg"
+  resource_group_name = azurerm_virtual_network.vnet.resource_group_name
+  location            = azurerm_virtual_network.vnet.location
+  tags                = var.tags
+
+  security_rule {
+    name                       = "allow_ssh"
+    description                = "Allow SSH"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "VirtualNetwork"
     destination_address_prefix = "*"
   }
 
