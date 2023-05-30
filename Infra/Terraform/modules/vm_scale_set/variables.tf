@@ -62,3 +62,9 @@ variable "nsg_id" {
   type        = string
   description = "Network security group Id"
 }
+
+variable "make_zone_redundant" {
+  type        = bool
+  description = "Should be Zone Redundant"
+  default     = true
+}

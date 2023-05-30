@@ -61,7 +61,8 @@ module "tin-army-scale-set" {
   vm_image_publisher  = var.vm_image_publisher
   vm_image_offer      = var.vm_image_offer
   vm_image_sku        = var.vm_image_sku
-  vm_image_version    = var.vm_image_version
+  vm_image_version    = var.vm_image_version  
+  make_zone_redundant = true
   subnet_id           = module.networking.main_subnet_id
   nsg_id              = module.networking.main_nsg_id
   tags                = module.main_resource_group.tags

@@ -11,6 +11,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   admin_password                  = var.vm_admin_password
   disable_password_authentication = false
 
+  zone_balance = var.make_zone_redundant ? true : false
+  zones        = var.make_zone_redundant ? ["1", "2"] : null
+  
   custom_data = filebase64("${path.module}/setup.sh")
 
   health_probe_id = azurerm_lb_probe.lb_probe.id
