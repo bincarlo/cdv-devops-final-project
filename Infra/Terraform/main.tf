@@ -12,3 +12,13 @@ module "main_resource_group" {
     })
   )
 }
+
+module "networking" {
+  source = "./modules/networking"
+
+  resource_base_name  = local.resource_base_name
+  environment         = var.environment
+  location            = var.location
+  resource_group_name = module.main_resource_group.resource_group_name
+  tags                = module.main_resource_group.tags
+}
