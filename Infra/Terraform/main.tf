@@ -43,6 +43,7 @@ module "bastion" {
   subnet_id        = module.networking.bastion_subnet_id
   nsg_id           = module.networking.bastion_nsg_id
   create_public_ip = true
+  create_as        = false
 
   tags = module.main_resource_group.tags
 }
@@ -67,6 +68,7 @@ module "application_nodes" {
   subnet_id        = module.networking.main_subnet_id
   nsg_id           = module.networking.main_nsg_id
   create_public_ip = false
+  create_as        = false
 
   tags = module.main_resource_group.tags
 }

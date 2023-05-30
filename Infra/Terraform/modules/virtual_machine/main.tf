@@ -24,11 +24,12 @@ resource "azurerm_public_ip" "pip" {
 }
 
 resource "azurerm_linux_virtual_machine" "linux_vm" {
-  name                = "${var.resource_base_name}-${var.environment}-${var.vm_label}-vm${var.instances}"
-  resource_group_name = azurerm_network_interface.nic.resource_group_name
-  location            = azurerm_network_interface.nic.location
-  size                = "Standard_B1s"
-  admin_username      = "azureuser"
+  name                            = "${var.resource_base_name}-${var.environment}-${var.vm_label}-vm${var.instances}"
+  resource_group_name             = azurerm_network_interface.nic.resource_group_name
+  location                        = azurerm_network_interface.nic.location
+  size                            = "Standard_B1s"
+  admin_username                  = "azureuser"
+  availability_set_id             = var.create_as ? var.availability_set_id : null
   network_interface_ids           = [azurerm_network_interface.nic.id]
   admin_password                  = var.vm_admin_password
   disable_password_authentication = false

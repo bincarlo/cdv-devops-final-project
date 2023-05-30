@@ -73,3 +73,14 @@ variable "create_public_ip" {
   type        = bool
   description = "Should Public IP be created"
 }
+
+variable "create_as" {
+  type        = bool
+  description = "Should be placed in Availability Set"
+}
+
+variable "availability_set_id" {
+  type        = string
+  description = "Availability set Id"
+  default     = null
+}
