@@ -9,3 +9,6 @@ vm_image_publisher = ""
 vm_image_offer     = ""
 vm_image_sku       = ""
 vm_image_version   = ""
+
+db_admin_user      = ""
+db_admin_password  = ""

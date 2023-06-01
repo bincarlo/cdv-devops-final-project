@@ -49,6 +49,16 @@ variable "vm_image_version" {
   description = "Virtual machine source image version"
 }
 
+variable "db_admin_user" {
+  type        = string
+  description = "DB admin login"
+}
+
+variable "db_admin_password" {
+  type        = string
+  description = "DB admin password"
+}
+
 locals {
   resource_base_name = "${var.prefix}-${var.application}"
 
