@@ -39,18 +39,18 @@ jobs:
       - name: Terraform Destroy
         run: |
           terraform destroy \
-          --var="prefix=${{ env.prefix }}" \
-          --var="application=${{ env.application }}" \
-          --var="environment=${{ env.environment }}" \
-          --var="owner=${{ env.owner }}" \
-          --var="location=${{ env.location }}" \
-          --var="vm_admin_password=${{ env.vm_admin_password }}" \
-          --var="vm_image_publisher=${{ env.vm_image_publisher }}" \
-          --var="vm_image_offer=${{ env.vm_image_offer }}" \
-          --var="vm_image_sku=${{ env.vm_image_sku }}" \
-          --var="vm_image_version=${{ env.vm_image_version }}" \
-          --var="db_admin_user=${{ env.db_admin_user }}" \
-          --var="db_admin_password=${{ env.db_admin_password }}" \
-          --var="notification_mail=${{ env.notification_mail }}"
-          --auto-approve
+          -var="prefix=${{ env.prefix }}" \
+          -var="application=${{ env.application }}" \
+          -var="environment=${{ env.environment }}" \
+          -var="owner=${{ env.owner }}" \
+          -var="location=${{ env.location }}" \
+          -var="vm_admin_password=${{ env.vm_admin_password }}" \
+          -var="vm_image_publisher=${{ env.vm_image_publisher }}" \
+          -var="vm_image_offer=${{ env.vm_image_offer }}" \
+          -var="vm_image_sku=${{ env.vm_image_sku }}" \
+          -var="vm_image_version=${{ env.vm_image_version }}" \
+          -var="db_admin_user=${{ env.db_admin_user }}" \
+          -var="db_admin_password=${{ env.db_admin_password }}" \
+          -var="notification_mail=${{ env.notification_mail }}"
+          -force
         working-directory: ./Infra/Terraform
