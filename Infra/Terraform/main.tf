@@ -51,7 +51,7 @@ module "bastion" {
 module "tin-army-scale-set" {
   source = "./modules/vm_scale_set"
 
-  instances = 2
+  instances = 1
 
   resource_base_name  = local.resource_base_name
   environment         = var.environment
@@ -66,32 +66,15 @@ module "tin-army-scale-set" {
   subnet_id           = module.networking.main_subnet_id
   nsg_id              = module.networking.main_nsg_id
   tags                = module.main_resource_group.tags
+  
+  postgres_user       = join("", [var.db_admin_user, "@", module.db.postgres_hostname])
+  postgres_password   = var.db_admin_password
+  postgres_host       = join("", [module.db.postgres_hostname, ".postgres.database.azure.com"])
+
+  depends_on = [
+    module.db
+  ]
 }
-
-# module "application_nodes" {
-#   source = "./modules/virtual_machine"
-
-#   count = 2
-
-#   vm_label            = "tin-soldier"
-#   resource_base_name  = local.resource_base_name
-#   environment         = var.environment
-#   location            = var.location
-#   instances           = count.index
-#   resource_group_name = module.main_resource_group.resource_group_name
-#   vm_admin_password   = var.vm_admin_password
-#   vm_image_publisher  = var.vm_image_publisher
-#   vm_image_offer      = var.vm_image_offer
-#   vm_image_sku        = var.vm_image_sku
-#   vm_image_version    = var.vm_image_version
-
-#   subnet_id        = module.networking.main_subnet_id
-#   nsg_id           = module.networking.main_nsg_id
-#   create_public_ip = false
-#   create_as        = false
-
-#   tags = module.main_resource_group.tags
-# }
 
 module "db" {
   source = "./modules/postgres_db"
