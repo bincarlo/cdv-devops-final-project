@@ -48,7 +48,7 @@ module "bastion" {
   tags = module.main_resource_group.tags
 }
 
-module "tin-army-scale-set" {
+module "tin_army_scale_set" {
   source = "./modules/vm_scale_set"
 
   instances = 2
@@ -99,4 +99,19 @@ module "log_analytics" {
   resource_group_name     = module.main_resource_group.resource_group_name
   alert_notification_mail = var.notification_mail
   tags                    = module.main_resource_group.tags
+}
+
+module "monitoring_vmss" {
+  source = "./modules/monitoring/vm_scale_set"
+
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.tin_army_scale_set.vmss_id
+  service_name               = module.tin_army_scale_set.vmss_name
 }
