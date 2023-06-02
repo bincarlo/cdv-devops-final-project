@@ -86,3 +86,9 @@ variable "postgres_host" {
   description = "DB host"
   default     = null
 }
+
+variable "autoscale_notification_mail" {
+  type        = string
+  description = "Mail address for autoscaling notifications"
+  default     = null
+}
