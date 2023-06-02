@@ -43,8 +43,8 @@ resource "azurerm_monitor_metric_alert" "metric_alert_vm_warning" {
   }
 }
 
-resource "azurerm_monitor_metric_alert" "metric_alert_vm_critical" {
-  name                = "[CRIT] Average CPU load above .90 on VM ${var.service_name}"
+resource "azurerm_monitor_metric_alert" "metric_alert_vm_error" {
+  name                = "[ERR] Average CPU load above .90 on VM ${var.service_name}"
   resource_group_name = var.resource_group_name
   scopes              = [var.service_id]
   frequency           = "PT5M"

@@ -35,8 +35,8 @@ resource "azurerm_monitor_metric_alert" "metric_alert_vmss_warning" {
   }
 }
 
-resource "azurerm_monitor_metric_alert" "metric_alert_vmss_critical" {
-  name                = "[CRIT] Average CPU load above .90 on VMSS ${var.service_name}"
+resource "azurerm_monitor_metric_alert" "metric_alert_vmss_error" {
+  name                = "[ERR] Average CPU load above .90 on VMSS ${var.service_name}"
   resource_group_name = var.resource_group_name
   scopes              = [var.service_id]
   frequency           = "PT5M"
@@ -62,7 +62,7 @@ resource "azurerm_monitor_metric_alert" "metric_alert_vmss_availability" {
   resource_group_name = var.resource_group_name
   scopes              = [var.service_id]
   frequency           = "PT1M"
-  severity            = "1"
+  severity            = "0"
   window_size         = "PT1M"
   tags                = var.tags
 
