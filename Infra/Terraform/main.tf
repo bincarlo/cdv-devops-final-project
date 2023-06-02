@@ -115,3 +115,18 @@ module "monitoring_vmss" {
   service_id                 = module.tin_army_scale_set.vmss_id
   service_name               = module.tin_army_scale_set.vmss_name
 }
+
+module "monitoring_bastion" {
+  source = "./modules/monitoring/virtual_machine"
+
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.bastion[0].vm_id
+  service_name               = module.bastion[0].vm_name
+}
