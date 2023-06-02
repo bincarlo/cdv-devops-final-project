@@ -130,3 +130,18 @@ module "monitoring_bastion" {
   service_id                 = module.bastion[0].vm_id
   service_name               = module.bastion[0].vm_name
 }
+
+module "monitoring_postgres_db" {
+  source = "./modules/monitoring/postgres_db"
+
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.db.postgres_id
+  service_name               = module.db.postgres_hostname
+}
