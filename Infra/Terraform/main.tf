@@ -160,3 +160,27 @@ module "monitoring_lb" {
   service_id                 = module.tin_army_scale_set.vmss_lb_id
   service_name               = module.tin_army_scale_set.vmss_lb_name
 }
+
+module "monitoring_nsg_main" {
+  source = "./modules/monitoring/network_security_group"
+
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  service_id                 = module.networking.main_nsg_id
+}
+
+module "monitoring_nsg_bastion" {
+  source = "./modules/monitoring/network_security_group"
+
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  service_id                 = module.networking.bastion_nsg_id
+}
