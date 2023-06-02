@@ -14,3 +14,4 @@ db_admin_user               = ""
 db_admin_password           = ""
 
 autoscale_notification_mail = ""
+alert_notification_mail     = ""
