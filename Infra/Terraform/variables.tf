@@ -71,5 +71,6 @@ locals {
   default_tags = {
     "application" = "${var.application}",
     "owner"       = "${var.owner}"
+    "realm"       = "${var.prefix}"
   }
 }
