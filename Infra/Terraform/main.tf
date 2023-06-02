@@ -51,7 +51,7 @@ module "bastion" {
 module "tin-army-scale-set" {
   source = "./modules/vm_scale_set"
 
-  instances = 1
+  instances = 2
 
   resource_base_name  = local.resource_base_name
   environment         = var.environment
