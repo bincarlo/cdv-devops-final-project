@@ -145,3 +145,18 @@ module "monitoring_postgres_db" {
   service_id                 = module.db.postgres_id
   service_name               = module.db.postgres_hostname
 }
+
+module "monitoring_lb" {
+  source = "./modules/monitoring/load_balancer"
+
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.tin_army_scale_set.vmss_lb_id
+  service_name               = module.tin_army_scale_set.vmss_lb_name
+}
