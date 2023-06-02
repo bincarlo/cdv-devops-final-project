@@ -13,8 +13,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   zone_balance = var.make_zone_redundant ? true : false
   zones        = var.make_zone_redundant ? ["1", "2"] : null
-  
-  custom_data = filebase64("${path.module}/setup.sh")
+
+  # custom_data = filebase64("${path.module}/setup.sh")
+  custom_data = base64encode(local.custom_data)
 
   health_probe_id = azurerm_lb_probe.lb_probe.id
 
