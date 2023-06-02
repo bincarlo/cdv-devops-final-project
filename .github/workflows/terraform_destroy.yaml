@@ -51,6 +51,6 @@ jobs:
           -var="vm_image_version=${{ env.vm_image_version }}" \
           -var="db_admin_user=${{ env.db_admin_user }}" \
           -var="db_admin_password=${{ env.db_admin_password }}" \
-          -var="notification_mail=${{ env.notification_mail }}"
-          -force
+          -var="notification_mail=${{ env.notification_mail }}" \
+          -auto-aprove
         working-directory: ./Infra/Terraform
