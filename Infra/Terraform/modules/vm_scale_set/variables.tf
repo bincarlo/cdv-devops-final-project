@@ -68,3 +68,21 @@ variable "make_zone_redundant" {
   description = "Should be Zone Redundant"
   default     = true
 }
+
+variable "postgres_user" {
+  type        = string
+  description = "DB admin login"
+  default     = null
+}
+
+variable "postgres_password" {
+  type        = string
+  description = "DB admin password"
+  default     = null
+}
+
+variable "postgres_host" {
+  type        = string
+  description = "DB host"
+  default     = null
+}
