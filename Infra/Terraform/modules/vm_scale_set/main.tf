@@ -104,3 +104,69 @@ resource "azurerm_lb_rule" "lb_rule" {
     azurerm_lb_backend_address_pool.lb_backend_pool.id
   ]
 }
+
+resource "azurerm_monitor_autoscale_setting" "vmss_autoscale" {
+  name                = "${var.resource_base_name}-${var.environment}-vmss-autoscale"
+  resource_group_name = azurerm_linux_virtual_machine_scale_set.vmss.resource_group_name
+  location            = azurerm_linux_virtual_machine_scale_set.vmss.location
+  target_resource_id  = azurerm_linux_virtual_machine_scale_set.vmss.id
+
+  profile {
+    name = "${var.resource_base_name}-${var.environment}-vmss-autoscale-default-profile"
+
+    capacity {
+      default = 2
+      minimum = 2
+      maximum = 3
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = azurerm_linux_virtual_machine_scale_set.vmss.id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = 75
+        metric_namespace   = "microsoft.compute/virtualmachinescalesets"
+      }
+
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT1M"
+      }
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = azurerm_linux_virtual_machine_scale_set.vmss.id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = 25
+        metric_namespace   = "microsoft.compute/virtualmachinescalesets"
+      }
+
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT1M"
+      }
+    }
+  }
+
+  notification {
+    email {
+      send_to_subscription_administrator = true
+      custom_emails                      = [var.autoscale_notification_mail]
+    }
+  }
+}

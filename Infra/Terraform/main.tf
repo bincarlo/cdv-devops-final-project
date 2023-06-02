@@ -53,23 +53,25 @@ module "tin-army-scale-set" {
 
   instances = 2
 
-  resource_base_name  = local.resource_base_name
-  environment         = var.environment
-  location            = var.location
-  resource_group_name = module.main_resource_group.resource_group_name
-  vm_admin_password   = var.vm_admin_password
-  vm_image_publisher  = var.vm_image_publisher
-  vm_image_offer      = var.vm_image_offer
-  vm_image_sku        = var.vm_image_sku
-  vm_image_version    = var.vm_image_version
-  make_zone_redundant = true
-  subnet_id           = module.networking.main_subnet_id
-  nsg_id              = module.networking.main_nsg_id
-  tags                = module.main_resource_group.tags
-  
-  postgres_user       = join("", [var.db_admin_user, "@", module.db.postgres_hostname])
-  postgres_password   = var.db_admin_password
-  postgres_host       = join("", [module.db.postgres_hostname, ".postgres.database.azure.com"])
+  resource_base_name          = local.resource_base_name
+  environment                 = var.environment
+  location                    = var.location
+  resource_group_name         = module.main_resource_group.resource_group_name
+  vm_admin_password           = var.vm_admin_password
+  vm_image_publisher          = var.vm_image_publisher
+  vm_image_offer              = var.vm_image_offer
+  vm_image_sku                = var.vm_image_sku
+  vm_image_version            = var.vm_image_version
+  make_zone_redundant         = true
+  subnet_id                   = module.networking.main_subnet_id
+  nsg_id                      = module.networking.main_nsg_id
+  autoscale_notification_mail = var.autoscale_notification_mail
+  tags                        = module.main_resource_group.tags
+
+  postgres_user     = join("", [var.db_admin_user, "@", module.db.postgres_hostname])
+  postgres_password = var.db_admin_password
+  postgres_host     = join("", [module.db.postgres_hostname, ".postgres.database.azure.com"])
+
 
   depends_on = [
     module.db
