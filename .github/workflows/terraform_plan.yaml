@@ -34,7 +34,7 @@ jobs:
       - name: Terraform plan
         run: |
           terraform plan \
-          -var="prefix=${{ env.perfix }}" \
+          -var="prefix=${{ env.prefix }}" \
           -var="application=${{ env.application }}" \
           -var="environment=${{ env.environment }}" \
           -var="owner=${{ env.owner }}" \
