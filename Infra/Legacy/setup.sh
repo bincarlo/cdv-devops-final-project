@@ -10,7 +10,7 @@ sudo systemctl enable nginx
 # Start nginx
 sudo systemctl start nginx
 # Update OpenSSL
-sudo apt-get upgrade openssl -y
+sudo NEEDRESTART_MODE=a apt-get upgrade openssl -y
 # Install PostgreSQL
 sudo apt-get install postgresql postgresql-contrib -y
 # Open PostgreSQL port
@@ -20,9 +20,9 @@ sudo systemctl enable postgresql
 # Start PostgreSQL
 sudo systemctl start postgresql
 # Create postgresql user
-sudo -u postgres createuser --superuser $USER
+sudo -u postgres createuser --superuser azureuser
 # Create postgresql database
-sudo -u postgres createdb $USER
+sudo -u postgres createdb azureuser
 # Set postgresql password
 echo "ALTER USER azureuser PASSWORD 'postgres';" | sudo -u postgres psql
 # Install pip3
