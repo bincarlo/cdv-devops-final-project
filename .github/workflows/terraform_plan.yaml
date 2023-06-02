@@ -1,7 +1,14 @@
 name: Terraform test infrastructure
 
 on:
-  workflow_dispatch
+  pull_request:
+    paths:
+      - "Infra/Terraform/**"
+      - ".github/workflows/terraform_plan.yaml"
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   Test:
