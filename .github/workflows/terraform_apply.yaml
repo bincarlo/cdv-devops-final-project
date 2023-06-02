@@ -1,0 +1,60 @@
+name: Terraform deploy infrastructure
+
+on:
+  workflow_dispatch
+
+jobs:
+  Apply:
+    name: Deploy infrastructure
+    runs-on: ubuntu-latest
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      prefix: ${{ vars.PREFIX }}
+      application: ${{ vars.APPLICATION }}
+      environment: ${{ vars.ENVIRONMENT }}
+      owner: ${{ vars.OWNER }}
+      location: ${{ vars.LOCATION }}
+      vm_admin_password: ${{ secrets.VM_ADMIN_PASSWORD }}
+      vm_image_publisher: ${{ vars.VM_IMAGE_PUBLISHER }}
+      vm_image_offer: ${{ vars.VM_IMAGE_OFFER }}
+      vm_image_sku: ${{ vars.VM_IMAGE_SKU }}
+      vm_image_version: ${{ vars.VM_IMAGE_VERSION }}
+      db_admin_user: ${{ vars.DB_ADMIN_USER }}
+      db_admin_password: ${{ secrets.DB_ADMIN_PASSWORD }}
+      notification_mail: ${{ vars.NOTIFICATION_MAIL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform init
+        run: terraform init
+        working-directory: ./Infra/Terraform
+
+      - name: Terraform plan
+        run: |
+          terraform plan \
+          -var="prefix=${{ env.prefix }}" \
+          -var="application=${{ env.application }}" \
+          -var="environment=${{ env.environment }}" \
+          -var="owner=${{ env.owner }}" \
+          -var="location=${{ env.location }}" \
+          -var="vm_admin_password=${{ env.vm_admin_password }}" \
+          -var="vm_image_publisher=${{ env.vm_image_publisher }}" \
+          -var="vm_image_offer=${{ env.vm_image_offer }}" \
+          -var="vm_image_sku=${{ env.vm_image_sku }}" \
+          -var="vm_image_version=${{ env.vm_image_version }}" \
+          -var="db_admin_user=${{ env.db_admin_user }}" \
+          -var="db_admin_password=${{ env.db_admin_password }}" \
+          -var="notification_mail=${{ env.notification_mail }}" \
+          -out=tfplan
+        working-directory: ./Infra/Terraform
+
+      - name: Terraform apply
+        run: terraform apply tfplan
+        working-directory: ./Infra/Terraform
