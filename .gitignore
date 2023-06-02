@@ -1,0 +1,36 @@
+# Python
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+.venv
+
+# Txt files except requirements
+*.txt
+!requirements.txt
+
+# Terraform
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+
+# tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+*tfplan*
+
+# Other
+
+# .DS_Store
+.DS_Store
+
+# Thumbs.db
+Thumbs.db

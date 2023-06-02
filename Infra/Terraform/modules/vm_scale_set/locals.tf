@@ -26,10 +26,10 @@ echo "POSTGRES_HOST=${var.postgres_host}" >> /home/azureuser/cdv-devops-final-pr
 
 # Install nginx
 sudo apt-get install nginx -y
+# Stop nginx
+sudo systemctl stop nginx
 # Enable nginx
 sudo systemctl enable nginx
-# Start nginx
-sudo systemctl start nginx
 
 # Update OpenSSL
 sudo NEEDRESTART_MODE=a apt-get upgrade openssl -y
@@ -67,8 +67,8 @@ sudo cp -r build/* /var/www/html/
 
 # Copy nginx config
 sudo cp ../Infra/Legacy/nginx.conf /etc/nginx/sites-available/default
-# Restart nginx
-sudo systemctl restart nginx
+# Start nginx
+sudo systemctl start nginx
 
 # Log custom_data finish time
 date >> /home/azureuser/custom-data.log
