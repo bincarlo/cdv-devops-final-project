@@ -65,7 +65,7 @@ module "tin-army-scale-set" {
   make_zone_redundant         = true
   subnet_id                   = module.networking.main_subnet_id
   nsg_id                      = module.networking.main_nsg_id
-  autoscale_notification_mail = var.autoscale_notification_mail
+  autoscale_notification_mail = var.notification_mail
   tags                        = module.main_resource_group.tags
 
   postgres_user     = join("", [var.db_admin_user, "@", module.db.postgres_hostname])
@@ -88,4 +88,15 @@ module "db" {
   db_admin_user       = var.db_admin_user
   db_admin_password   = var.db_admin_password
   tags                = module.main_resource_group.tags
+}
+
+module "log_analytics" {
+  source = "./modules/monitoring/log_analytics"
+
+  resource_base_name      = local.resource_base_name
+  environment             = var.environment
+  location                = var.location
+  resource_group_name     = module.main_resource_group.resource_group_name
+  alert_notification_mail = var.notification_mail
+  tags                    = module.main_resource_group.tags
 }

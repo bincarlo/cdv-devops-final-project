@@ -59,7 +59,7 @@ variable "db_admin_password" {
   description = "DB admin password"
 }
 
-variable "autoscale_notification_mail" {
+variable "notification_mail" {
   type        = string
   description = "Mail address for autoscaling notifications"
   default     = null
