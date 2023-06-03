@@ -53,8 +53,13 @@ pip3 install -r requirements.txt
 pip uninstall JWT -y
 pip uninstall PyJWT -y
 pip install PyJWT
-# Start python3 backend server
-nohup python3 main.py &
+
+# Create python3 backend fastapi server
+sudo cp /home/azureuser/cdv-devops-final-project/Backend/fastapi.service /etc/systemd/system/fastapi.service
+# Enable python3 backend fastapi server
+sudo systemctl enable fastapi.service
+# Start python3 backend fastapi server
+sudo systemctl start fastapi.service
 
 # Go to repository
 cd ../Frontend
