@@ -115,8 +115,8 @@ resource "azurerm_monitor_autoscale_setting" "vmss_autoscale" {
     name = "${var.resource_base_name}-${var.environment}-vmss-autoscale-default-profile"
 
     capacity {
-      default = 2
-      minimum = 2
+      default = var.instances <= 2 ? var.instances : 2
+      minimum = var.instances <= 2 ? var.instances : 2
       maximum = 3
     }
 
