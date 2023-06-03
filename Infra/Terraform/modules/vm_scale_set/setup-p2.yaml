@@ -1,0 +1,20 @@
+- name: Setup application - part 2
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Build frontend
+      shell: npm run build
+      args:
+        chdir: /home/azureuser/cdv-devops-final-project/Frontend/
+    - name: Copy build to nginx
+      copy:
+        src: /home/azureuser/cdv-devops-final-project/Frontend/build/
+        dest: /var/www/html/
+    - name: Copy nginx config
+      copy:
+        src: /home/azureuser/cdv-devops-final-project/Infra/Legacy/nginx.conf
+        dest: /etc/nginx/sites-available/default
+    - name: Enable and start nginx service
+      service:
+        name: nginx
+        state: started

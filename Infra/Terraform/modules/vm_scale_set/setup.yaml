@@ -1,0 +1,85 @@
+- name: Setup application
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install or update nginx
+      apt:
+        name: nginx
+        state: latest
+    - name: Enable but stop nginx service
+      service:
+        name: nginx
+        enabled: yes
+        state: stopped
+    - name: Install or update openssl
+      apt:
+        name: openssl
+        state: latest
+    - name: Install or update python3-pip
+      apt:
+        name: python3-pip
+        state: latest
+    - name: Install python 3.10 and set as default
+      community.general.alternatives:
+        name: python3
+        path: /usr/bin/python3.10
+        link: /usr/bin/python3
+        state: selected
+    - name: Install or update npm
+      apt:
+        name: npm
+        state: latest
+    - name: Install or update nodejs
+      apt:
+        name: nodejs
+        state: latest
+    - name: Install create-react-app with npm
+      community.general.npm:
+        name: create-react-app
+        global: true
+    - name: Install python requirements
+      pip:
+        requirements: /home/azureuser/cdv-devops-final-project/Backend/requirements.txt
+    - name: Resolve JWT error - step 1 - uninstall JWT
+      pip:
+        name: JWT
+        state: absent
+    - name: Resolve JWT error - step 1 - install PyJWT
+      pip:
+        name: PyJWT
+        state: present
+    - name: Create python3 backend fastapi service
+      copy:
+        src: /home/azureuser/cdv-devops-final-project/Backend/fastapi.service
+        dest: /etc/systemd/system/fastapi.service
+    - name: Enable and start python3 backend fastapi service
+      service:
+        name: fastapi.service
+        enabled: yes
+        state: started
+    # - name: Start python3 backend server
+    #   shell: nohup python3 main.py &
+    #   args:
+    #     chdir: /home/azureuser/cdv-devops-final-project/Backend/
+
+    # - name: Install frontend requirements
+    #   shell: npm install
+    #   args:
+    #     chdir: /home/azureuser/cdv-devops-final-project/Frontend/
+
+    # - name: Build frontend
+    #   shell: npm run build
+    #   args:
+    #     chdir: /home/azureuser/cdv-devops-final-project/Frontend/
+    # - name: Copy build to nginx
+    #   copy:
+    #     src: /home/azureuser/cdv-devops-final-project/Frontend/build/
+    #     dest: /var/www/html/
+    # - name: Copy nginx config
+    #   copy:
+    #     src: /home/azureuser/cdv-devops-final-project/Infra/Legacy/nginx.conf
+    #     dest: /etc/nginx/sites-available/default
+    # - name: Enable and start nginx service
+    #   service:
+    #     name: nginx
+    #     state: started
