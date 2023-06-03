@@ -51,7 +51,7 @@ module "bastion" {
 module "tin_army_scale_set" {
   source = "./modules/vm_scale_set"
 
-  instances = 1
+  instances = 2
 
   resource_base_name          = local.resource_base_name
   environment                 = var.environment
@@ -90,97 +90,97 @@ module "db" {
   tags                = module.main_resource_group.tags
 }
 
-# module "log_analytics" {
-#   source = "./modules/monitoring/log_analytics"
+module "log_analytics" {
+  source = "./modules/monitoring/log_analytics"
 
-#   resource_base_name      = local.resource_base_name
-#   environment             = var.environment
-#   location                = var.location
-#   resource_group_name     = module.main_resource_group.resource_group_name
-#   alert_notification_mail = var.notification_mail
-#   tags                    = module.main_resource_group.tags
-# }
+  resource_base_name      = local.resource_base_name
+  environment             = var.environment
+  location                = var.location
+  resource_group_name     = module.main_resource_group.resource_group_name
+  alert_notification_mail = var.notification_mail
+  tags                    = module.main_resource_group.tags
+}
 
-# module "monitoring_vmss" {
-#   source = "./modules/monitoring/vm_scale_set"
+module "monitoring_vmss" {
+  source = "./modules/monitoring/vm_scale_set"
 
-#   resource_base_name         = local.resource_base_name
-#   environment                = var.environment
-#   location                   = var.location
-#   resource_group_name        = module.main_resource_group.resource_group_name
-#   tags                       = module.main_resource_group.tags
-#   log_analytics_workspace_id = module.log_analytics.la_id
-#   ag_warning                 = module.log_analytics.ag_warning
-#   ag_critical                = module.log_analytics.ag_critical
-#   service_id                 = module.tin_army_scale_set.vmss_id
-#   service_name               = module.tin_army_scale_set.vmss_name
-# }
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.tin_army_scale_set.vmss_id
+  service_name               = module.tin_army_scale_set.vmss_name
+}
 
-# module "monitoring_bastion" {
-#   source = "./modules/monitoring/virtual_machine"
+module "monitoring_bastion" {
+  source = "./modules/monitoring/virtual_machine"
 
-#   resource_base_name         = local.resource_base_name
-#   environment                = var.environment
-#   location                   = var.location
-#   resource_group_name        = module.main_resource_group.resource_group_name
-#   tags                       = module.main_resource_group.tags
-#   log_analytics_workspace_id = module.log_analytics.la_id
-#   ag_warning                 = module.log_analytics.ag_warning
-#   ag_critical                = module.log_analytics.ag_critical
-#   service_id                 = module.bastion[0].vm_id
-#   service_name               = module.bastion[0].vm_name
-# }
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.bastion[0].vm_id
+  service_name               = module.bastion[0].vm_name
+}
 
-# module "monitoring_postgres_db" {
-#   source = "./modules/monitoring/postgres_db"
+module "monitoring_postgres_db" {
+  source = "./modules/monitoring/postgres_db"
 
-#   resource_base_name         = local.resource_base_name
-#   environment                = var.environment
-#   location                   = var.location
-#   resource_group_name        = module.main_resource_group.resource_group_name
-#   tags                       = module.main_resource_group.tags
-#   log_analytics_workspace_id = module.log_analytics.la_id
-#   ag_warning                 = module.log_analytics.ag_warning
-#   ag_critical                = module.log_analytics.ag_critical
-#   service_id                 = module.db.postgres_id
-#   service_name               = module.db.postgres_hostname
-# }
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.db.postgres_id
+  service_name               = module.db.postgres_hostname
+}
 
-# module "monitoring_lb" {
-#   source = "./modules/monitoring/load_balancer"
+module "monitoring_lb" {
+  source = "./modules/monitoring/load_balancer"
 
-#   resource_base_name         = local.resource_base_name
-#   environment                = var.environment
-#   location                   = var.location
-#   resource_group_name        = module.main_resource_group.resource_group_name
-#   tags                       = module.main_resource_group.tags
-#   log_analytics_workspace_id = module.log_analytics.la_id
-#   ag_warning                 = module.log_analytics.ag_warning
-#   ag_critical                = module.log_analytics.ag_critical
-#   service_id                 = module.tin_army_scale_set.vmss_lb_id
-#   service_name               = module.tin_army_scale_set.vmss_lb_name
-# }
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  ag_warning                 = module.log_analytics.ag_warning
+  ag_critical                = module.log_analytics.ag_critical
+  service_id                 = module.tin_army_scale_set.vmss_lb_id
+  service_name               = module.tin_army_scale_set.vmss_lb_name
+}
 
-# module "monitoring_nsg_main" {
-#   source = "./modules/monitoring/network_security_group"
+module "monitoring_nsg_main" {
+  source = "./modules/monitoring/network_security_group"
 
-#   resource_base_name         = local.resource_base_name
-#   environment                = var.environment
-#   location                   = var.location
-#   resource_group_name        = module.main_resource_group.resource_group_name
-#   tags                       = module.main_resource_group.tags
-#   log_analytics_workspace_id = module.log_analytics.la_id
-#   service_id                 = module.networking.main_nsg_id
-# }
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  service_id                 = module.networking.main_nsg_id
+}
 
-# module "monitoring_nsg_bastion" {
-#   source = "./modules/monitoring/network_security_group"
+module "monitoring_nsg_bastion" {
+  source = "./modules/monitoring/network_security_group"
 
-#   resource_base_name         = local.resource_base_name
-#   environment                = var.environment
-#   location                   = var.location
-#   resource_group_name        = module.main_resource_group.resource_group_name
-#   tags                       = module.main_resource_group.tags
-#   log_analytics_workspace_id = module.log_analytics.la_id
-#   service_id                 = module.networking.bastion_nsg_id
-# }
+  resource_base_name         = local.resource_base_name
+  environment                = var.environment
+  location                   = var.location
+  resource_group_name        = module.main_resource_group.resource_group_name
+  tags                       = module.main_resource_group.tags
+  log_analytics_workspace_id = module.log_analytics.la_id
+  service_id                 = module.networking.bastion_nsg_id
+}
